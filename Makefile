@@ -2,6 +2,23 @@ ifndef PKGS
 PKGS := $(shell go list ./... 2>&1 | grep -v 'vendor' | grep -v 'sanity')
 endif
 
+all: get-tools vendor-sync test lint vet docker-build compose
+
+docker-build:
+	# TODO
+
+compose:
+	# TODO
+
+compose:
+	docker-compose up
+
+run-server:
+	go run cmd/server/main.go
+
+run-client:
+	go run cmd/client/main.go
+
 verify: vendor-sync test lint vet
 
 get-tools:
