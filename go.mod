@@ -1,4 +1,4 @@
-module github.com/stgleb/port-server
+module port-server
 
 go 1.14
 
