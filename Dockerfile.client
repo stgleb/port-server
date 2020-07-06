@@ -1,0 +1,16 @@
+FROM golang:1.14.2 as builder
+
+COPY . $GOPATH/src/port-client
+WORKDIR $GOPATH/src/port-client
+
+ARG ARCH=amd64
+ARG TAG=unstable
+
+RUN GO111MODULE=on CGO_ENABLED=0 GOOS=linux GOARCH=${ARCH} \
+    go build -mod=vendor -a -ldflags="-X main.version=${TAG}" -o /go/bin/client ./cmd/client
+
+FROM scratch as client
+COPY --from=builder /go/bin/client /bin/client
+EXPOSE 9091
+
+ENTRYPOINT ["/bin/client"]

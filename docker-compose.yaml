@@ -1,0 +1,25 @@
+version: '3.7'
+services:
+  server:
+    image: stgleb/port-server
+    ports:
+      - "9090:9090"
+    network_mode: "host"
+  client:
+    entrypoint: ["/bin/client", "-filePath", "/data/ports.json"]
+    depends_on:
+      - server
+    image: stgleb/port-client
+    ports:
+      - "9091:9091"
+    volumes:
+      - ./data:/data:ro
+    network_mode: "host"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 200M
+        reservations:
+          cpus: '0.25'
+          memory: 200M

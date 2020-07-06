@@ -4,12 +4,6 @@ endif
 
 all: get-tools vendor-sync test lint vet docker-build compose
 
-docker-build:
-	# TODO
-
-compose:
-	# TODO
-
 compose:
 	docker-compose up
 
@@ -19,14 +13,17 @@ run-server:
 run-client:
 	go run cmd/client/main.go
 
-verify: vendor-sync test lint vet
-
 test:
 	go test -v -race ./pkg/...
+
+docker-build:
+	docker build -t stgleb/port-client -f Dockerfile.client .
+	docker build -t stgleb/port-server -f Dockerfile.server .
 
 get-tools:
 	go get -u golang.org/x/lint/golint
 	go get github.com/golang/protobuf/protoc-gen-go
+	go get github.com/golang/mock/mockgen
 
 lint:
 	for file in $(GO_FILES); do \
