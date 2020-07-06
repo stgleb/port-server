@@ -21,6 +21,9 @@ run-client:
 
 verify: vendor-sync test lint vet
 
+test:
+	go test -v -race ./pkg/...
+
 get-tools:
 	go get -u golang.org/x/lint/golint
 	go get github.com/golang/protobuf/protoc-gen-go
